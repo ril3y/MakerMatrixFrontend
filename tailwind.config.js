@@ -4,13 +4,14 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class', // Enable class-based dark mode
   theme: {
     extend: {
       colors: {
-        // Battle With Bytes Design System
+        // Battle With Bytes Design System - using CSS variables for theming
         primary: {
-          DEFAULT: '#00ff9d',
-          dark: '#00cc7d',
+          DEFAULT: 'var(--primary, #00ff9d)',
+          dark: 'var(--primary-dark, #00cc7d)',
           light: '#33ffa8',
         },
         secondary: {
@@ -19,34 +20,35 @@ export default {
           light: '#a78bfa',
         },
         danger: '#ef4444',
+        destructive: '#ef4444',
         warning: '#f59e0b',
         success: '#10b981',
         info: '#3b82f6',
         
         gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
+          50: '#fafafa',
+          100: '#f4f4f5',
+          200: '#e4e4e7',
+          300: '#d4d4d8',
+          400: '#a1a1aa',
+          500: '#71717a',
+          600: '#52525b',
+          700: '#3f3f46',
+          800: '#27272a',
+          900: '#18181b',
         },
         
         // Custom background colors
-        'bg-primary': '#000000',
-        'bg-secondary': 'rgba(0, 0, 0, 0.8)',
-        'bg-tertiary': 'rgba(0, 0, 0, 0.5)',
-        'bg-card': 'rgba(0, 0, 0, 0.5)',
-        'bg-input': 'rgba(0, 0, 0, 0.3)',
+        'background-primary': '#ffffff',
+        'background-secondary': '#f9fafb',
+        'background-tertiary': '#f3f4f6',
+        'bg-card': '#f9fafb',
+        'bg-input': '#ffffff',
         
         // Text colors
-        'text-primary': '#ffffff',
-        'text-secondary': '#e5e7eb',
-        'text-muted': '#9ca3af',
+        'text-primary': '#111827',
+        'text-secondary': '#374151',
+        'text-muted': '#6b7280',
         'text-accent': '#00ff9d',
         
         // Border colors

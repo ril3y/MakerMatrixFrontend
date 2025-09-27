@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast'
 import { useAuthStore } from '@/store/authStore'
 import { useEffect } from 'react'
+import { ThemeProvider, useTheme } from '@/contexts/ThemeContext'
 
 // Layouts
 import MainLayout from '@/components/layouts/MainLayout'
@@ -12,6 +13,7 @@ import LoginPage from '@/pages/auth/LoginPage'
 import DashboardPage from '@/pages/DashboardPage'
 import PartsPage from '@/pages/parts/PartsPage'
 import PartDetailsPage from '@/pages/parts/PartDetailsPage'
+import EditPartPage from '@/pages/parts/EditPartPage'
 import LocationsPage from '@/pages/locations/LocationsPage'
 import CategoriesPage from '@/pages/categories/CategoriesPage'
 import UsersPage from '@/pages/users/UsersPage'
@@ -23,8 +25,9 @@ import NotFoundPage from '@/pages/NotFoundPage'
 import ProtectedRoute from '@/components/auth/ProtectedRoute'
 import LoadingScreen from '@/components/ui/LoadingScreen'
 
-function App() {
+function AppContent() {
   const { checkAuth, isLoading, isAuthenticated } = useAuthStore()
+  const { isDarkMode } = useTheme()
 
   useEffect(() => {
     // Only check auth if we don't already have an authenticated state
@@ -55,6 +58,7 @@ function App() {
               {/* Parts Management */}
               <Route path="/parts" element={<PartsPage />} />
               <Route path="/parts/:id" element={<PartDetailsPage />} />
+              <Route path="/parts/:id/edit" element={<EditPartPage />} />
               
               {/* Location Management */}
               <Route path="/locations" element={<LocationsPage />} />
@@ -85,14 +89,14 @@ function App() {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#1f2937',
-            color: '#e5e7eb',
-            border: '1px solid #374151',
+            background: isDarkMode ? '#1f2937' : '#ffffff',
+            color: isDarkMode ? '#e5e7eb' : '#111827',
+            border: isDarkMode ? '1px solid #374151' : '1px solid #d1d5db',
           },
           success: {
             iconTheme: {
               primary: '#00ff9d',
-              secondary: '#000000',
+              secondary: isDarkMode ? '#000000' : '#ffffff',
             },
           },
           error: {
@@ -104,6 +108,14 @@ function App() {
         }}
       />
     </>
+  )
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 

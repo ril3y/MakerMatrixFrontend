@@ -56,6 +56,10 @@ export class CategoriesService {
     return response.data!.deleted_count
   }
 
+  async getAll(): Promise<Category[]> {
+    return this.getAllCategories()
+  }
+
   async checkNameExists(name: string, excludeId?: string): Promise<boolean> {
     try {
       const category = await this.getCategory({ name })

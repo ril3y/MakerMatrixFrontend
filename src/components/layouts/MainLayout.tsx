@@ -20,6 +20,7 @@ import {
 import { useAuthStore } from '../../store/authStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
+import QuakeConsole from '../console/QuakeConsole';
 
 interface NavItem {
   label: string;
@@ -44,11 +45,7 @@ const MainLayout: React.FC = () => {
     {
       label: 'Parts',
       path: '/parts',
-      icon: <CircuitBoard className="w-5 h-5" />,
-      children: [
-        { label: 'All Parts', path: '/parts', icon: <Package className="w-5 h-5" /> },
-        { label: 'Add Part', path: '/parts/new', icon: <Binary className="w-5 h-5" /> }
-      ]
+      icon: <CircuitBoard className="w-5 h-5" />
     },
     {
       label: 'Locations',
@@ -107,8 +104,8 @@ const MainLayout: React.FC = () => {
         <div
           className={clsx(
             'flex items-center justify-between px-4 py-3 cursor-pointer transition-all duration-200',
-            'hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-blue-600/20',
-            active && 'bg-gradient-to-r from-purple-600/30 to-blue-600/30 border-l-4 border-purple-500',
+            'hover:bg-primary-10',
+            active && 'bg-primary-20 border-l-4 border-primary',
             depth > 0 && 'pl-8'
           )}
           onClick={() => {
@@ -122,14 +119,14 @@ const MainLayout: React.FC = () => {
           <div className="flex items-center space-x-3">
             <div className={clsx(
               'transition-colors duration-200',
-              active ? 'text-purple-400' : 'text-gray-400'
+              active ? 'text-primary-accent' : 'text-theme-secondary'
             )}>
               {item.icon}
             </div>
             {isSidebarOpen && (
               <span className={clsx(
                 'font-medium transition-colors duration-200',
-                active ? 'text-white' : 'text-gray-300'
+                active ? 'text-theme-primary' : 'text-theme-secondary'
               )}>
                 {item.label}
               </span>
@@ -139,7 +136,7 @@ const MainLayout: React.FC = () => {
             <motion.div
               animate={{ rotate: isExpanded ? 90 : 0 }}
               transition={{ duration: 0.2 }}
-              className="text-gray-400"
+              className="text-theme-secondary"
             >
               <ChevronRight className="w-4 h-4" />
             </motion.div>
@@ -164,12 +161,12 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div className="min-h-screen bg-theme-secondary text-theme-primary transition-colors duration-300">
       {/* Battle With Bytes Themed Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-purple-600/10 to-blue-600/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600/10 dark:bg-purple-600/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/10 dark:bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-purple-600/5 dark:from-purple-600/10 to-blue-600/5 dark:to-blue-600/10 rounded-full blur-3xl" />
       </div>
 
       {/* Sidebar */}
@@ -177,10 +174,10 @@ const MainLayout: React.FC = () => {
         initial={false}
         animate={{ width: isSidebarOpen ? 280 : 80 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed left-0 top-0 h-full bg-gray-800/50 backdrop-blur-xl border-r border-gray-700/50 z-20"
+        className="fixed left-0 top-0 h-full bg-theme-primary/80 backdrop-blur-xl border-r border-theme-primary z-20"
       >
         {/* Logo/Header */}
-        <div className="h-20 flex items-center justify-between px-4 border-b border-gray-700/50">
+        <div className="h-20 flex items-center justify-between px-4 border-b border-theme-primary">
           <div className="flex items-center space-x-3">
             <div className="relative">
               <Cpu className="w-8 h-8 text-purple-500" />
@@ -188,16 +185,16 @@ const MainLayout: React.FC = () => {
             </div>
             {isSidebarOpen && (
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent font-theme-display">
                   MakerMatrix
                 </h1>
-                <p className="text-xs text-gray-500">Battle With Bytes</p>
+                <p className="text-xs text-theme-muted">Battle With Bytes</p>
               </div>
             )}
           </div>
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 rounded-lg hover:bg-gray-700/50 transition-colors"
+            className="p-2 rounded-lg hover:bg-theme-secondary transition-colors"
           >
             {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -209,7 +206,7 @@ const MainLayout: React.FC = () => {
         </nav>
 
         {/* User Section */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700/50">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-theme-primary">
           <div className="flex items-center justify-between">
             <div className={clsx(
               'flex items-center space-x-3',
@@ -223,14 +220,14 @@ const MainLayout: React.FC = () => {
               {isSidebarOpen && (
                 <div>
                   <p className="text-sm font-medium">{user?.username}</p>
-                  <p className="text-xs text-gray-500">{user?.roles?.[0]?.name || 'No Role'}</p>
+                  <p className="text-xs text-theme-muted">{user?.roles?.[0]?.name || 'No Role'}</p>
                 </div>
               )}
             </div>
             {isSidebarOpen && (
               <button
                 onClick={handleLogout}
-                className="p-2 rounded-lg hover:bg-gray-700/50 transition-colors text-gray-400 hover:text-red-400"
+                className="p-2 rounded-lg hover:bg-theme-secondary transition-colors text-theme-secondary hover:text-error"
               >
                 <LogOut className="w-5 h-5" />
               </button>
@@ -247,15 +244,13 @@ const MainLayout: React.FC = () => {
         )}
       >
         {/* Top Bar */}
-        <header className="h-20 bg-gray-800/30 backdrop-blur-lg border-b border-gray-700/50 px-8 flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-gray-400">
-            <Terminal className="w-5 h-5" />
-            <Code2 className="w-5 h-5" />
-            <span className="text-sm font-mono">System Online</span>
+        <header className="h-20 bg-theme-primary/50 backdrop-blur-lg border-b border-theme-primary px-8 flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-theme-secondary">
+        
           </div>
           <div className="flex items-center space-x-4">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-theme-muted">
               {new Date().toLocaleString()}
             </span>
           </div>
@@ -266,6 +261,9 @@ const MainLayout: React.FC = () => {
           <Outlet />
         </div>
       </main>
+
+      {/* Quake Console */}
+      <QuakeConsole />
     </div>
   );
 };

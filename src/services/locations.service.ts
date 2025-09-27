@@ -12,8 +12,12 @@ import {
 
 export class LocationsService {
   async createLocation(data: CreateLocationRequest): Promise<Location> {
-    const response = await apiClient.post<ApiResponse<Location>>('/locations/add_location', data)
-    return response.data!
+    const response = await apiClient.post<any>('/locations/add_location', data)
+    // Backend returns ResponseSchema format: { status, message, data }
+    if (response.status === 'success' && response.data) {
+      return response.data
+    }
+    throw new Error(response.message || 'Failed to create location')
   }
 
   async getLocation(params: { id?: string; name?: string }): Promise<Location> {
@@ -25,14 +29,20 @@ export class LocationsService {
     if (params.id) queryParams.append('location_id', params.id)
     if (params.name) queryParams.append('name', params.name)
     
-    const response = await apiClient.get<ApiResponse<Location>>(`/locations/get_location?${queryParams}`)
-    return response.data!
+    const response = await apiClient.get<any>(`/locations/get_location?${queryParams}`)
+    if (response.status === 'success' && response.data) {
+      return response.data
+    }
+    throw new Error(response.message || 'Failed to get location')
   }
 
   async updateLocation(data: UpdateLocationRequest): Promise<Location> {
     const { id, ...updateData } = data
-    const response = await apiClient.put<ApiResponse<Location>>(`/locations/update_location/${id}`, updateData)
-    return response.data!
+    const response = await apiClient.put<any>(`/locations/update_location/${id}`, updateData)
+    if (response.status === 'success' && response.data) {
+      return response.data
+    }
+    throw new Error(response.message || 'Failed to update location')
   }
 
   async deleteLocation(id: string): Promise<LocationDeleteResponse> {
@@ -41,8 +51,11 @@ export class LocationsService {
   }
 
   async getAllLocations(): Promise<Location[]> {
-    const response = await apiClient.get<ApiResponse<Location[]>>('/locations/get_all_locations')
-    return response.data || []
+    const response = await apiClient.get<any>('/locations/get_all_locations')
+    if (response.status === 'success' && response.data) {
+      return response.data
+    }
+    return []
   }
 
   async getLocationDetails(id: string): Promise<LocationDetails> {
@@ -63,6 +76,10 @@ export class LocationsService {
   async cleanupLocations(): Promise<LocationCleanupResponse> {
     const response = await apiClient.delete<ApiResponse<LocationCleanupResponse>>('/locations/cleanup-locations')
     return response.data!
+  }
+
+  async getAll(): Promise<Location[]> {
+    return this.getAllLocations()
   }
 
   async checkNameExists(name: string, parentId?: string, excludeId?: string): Promise<boolean> {
