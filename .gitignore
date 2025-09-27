@@ -38,6 +38,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Claude Code files
+CLAUDE.md
+
 # Testing
 coverage/
 .nyc_output/
