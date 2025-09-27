@@ -39,6 +39,7 @@ Thumbs.db
 .idea/
 
 # Claude Code files
+.claude/
 CLAUDE.md
 
 # Testing
